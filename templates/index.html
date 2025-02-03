@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Telegram Bot Control Panel</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <div class="container">
+        <img src="/static/logo.jpeg" alt="Bot Logo" class="logo">
+        <h1>Almon Bot Control Panel</h1>
+        <form id="botForm">
+            <label for="api_id">API ID:</label>
+            <input type="text" id="api_id" required>
+
+            <label for="api_hash">API Hash:</label>
+            <input type="text" id="api_hash" required>
+
+            <label for="phone_number">Phone Number:</label>
+            <input type="text" id="phone_number" required>
+
+            <label for="target_username">Target Group Username:</label>
+            <input type="text" id="target_username" required>
+
+            <label for="group_id">Telegram Group ID:</label>
+            <input type="text" id="group_id" required>
+
+            <button type="button" onclick="startBot()">Start Bot</button>
+        </form>
+        <p id="status"></p>
+    </div>
+    <script>
+        function startBot() {
+            const data = {
+                api_id: document.getElementById('api_id').value,
+                api_hash: document.getElementById('api_hash').value,
+                phone_number: document.getElementById('phone_number').value,
+                target_username: document.getElementById('target_username').value,
+                group_id: document.getElementById('group_id').value
+            };
+            fetch('/start_bot', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify(data)
+            })
+            .then(response => response.json())
+            .then(data => document.getElementById('status').innerText = data.status);
+        }
+    </script>
+</body>
+</html>
